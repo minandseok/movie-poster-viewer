@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {use, useState} from 'react';
 
 export function meta() {
   return [
@@ -9,48 +9,45 @@ export function meta() {
 }
 
 export default function Home() {
-  const [hour, setHour] = useState<number>(0);
-  const [minute, setMinute] = useState<number>(0);
-  const [disabled, setDisabled] = useState<boolean>(false);
+  const [input, setInput] = useState('');
+  const [toDoList, setToDoList] = useState<string[]>([]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const {id, value} = e.target;
-    const numberValue = Number(value);
-
-    if (id === 'hour') {
-      setHour(numberValue);
-      setMinute(numberValue * 60);
-    } else if (id === 'minute') {
-      setMinute(numberValue);
-      setHour(Math.floor(numberValue / 60));
-    }
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (input.trim() === '') return;
+    setToDoList((toDoList) => [...toDoList, input.trim()]);
+    setInput('');
   };
 
-  const handleFlip = () => {
-    setDisabled((disabled) => !disabled);
+  const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setInput(event.target.value);
+  };
+
+  const handleDelete = (index: number) => {
+    setToDoList((toDoList) => toDoList.filter((_, i) => i !== index));
   };
 
   return (
     <div>
-      <label htmlFor='hour'>Hour: </label>
-      <input
-        type='number'
-        id='hour'
-        value={hour}
-        onChange={handleChange}
-        disabled={disabled}
-      />
-      <br />
-      <label htmlFor='minute'>Minute: </label>
-      <input
-        type='number'
-        id='minute'
-        value={minute}
-        onChange={handleChange}
-        disabled={disabled === false}
-      />
-      <br />
-      <button onClick={handleFlip}>Flip</button>
+      <form onSubmit={handleSubmit}>
+        <input
+          type='text'
+          value={input}
+          onChange={handleInput}
+          placeholder='할 일 적으셈'
+        />
+        <button>Add</button>
+      </form>
+      <ul>
+        {toDoList.map((toDo, index) => (
+          <li key={index}>
+            <span>
+              {index + 1}. {toDo}
+            </span>
+            <button onClick={() => handleDelete(index)}>Delete</button>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
