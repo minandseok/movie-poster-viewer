@@ -4,6 +4,6 @@ import {defineConfig} from 'vite';
 import tsconfigPaths from 'vite-tsconfig-paths';
 
 export default defineConfig({
-  base: '/movie-poster-viewer/build/',
+  base: '/movie-poster-viewer/',
   plugins: [tailwindcss(), reactRouter(), tsconfigPaths()],
 });
