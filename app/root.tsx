@@ -1,4 +1,5 @@
 import {
+  BrowserRouter,
   isRouteErrorResponse,
   Links,
   Meta,

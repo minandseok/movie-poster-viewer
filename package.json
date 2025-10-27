@@ -2,14 +2,14 @@
   "name": "movie-poster-viewer",
   "private": true,
   "type": "module",
-  "homepage": "https://minandseok.github.io/",
+  "homepage": "https://minandseok.github.io/movie-poster-viewer/",
   "scripts": {
     "build": "react-router build",
     "dev": "react-router dev",
     "start": "react-router-serve ./build/server/index.js",
     "typecheck": "react-router typegen && tsc",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "predeploy": "npm run build && shx cp build/client/index.html build/client/404.html",
+    "deploy": "gh-pages -d build/client"
   },
   "dependencies": {
     "@react-router/node": "^7.9.2",
@@ -30,6 +30,7 @@
     "tailwindcss": "^4.1.16",
     "typescript": "^5.9.2",
     "vite": "^7.1.7",
-    "vite-tsconfig-paths": "^5.1.4"
+    "vite-tsconfig-paths": "^5.1.4",
+    "shx": "^0.4.0"
   }
 }
